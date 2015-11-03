@@ -66,7 +66,7 @@ the_title<-paste("The best time to post on /r/",subreddit_desired, "is\n", endin
 
 #These lines will generate the png (saved to your working directory, named after the subreddit selected)  
 png(filename=paste(subreddit_desired, ".png"), width=1000)
-ggplot(ending_table, aes(x=hour_as_char, y=day_as_char, fill=total_score)) +
+ggplot(table, aes(x=hour_as_char, y=day_as_char, fill=total_score)) +
   geom_tile() +
   coord_fixed() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.6), legend.direction="horizontal", legend.position="top", legend.key.width=unit(5, "cicero"), legend.text = element_text(size=0), legend.margin = unit(0, "cm"), plot.title = element_text(size = rel(2))) + #plot.background = element_rect(fill="alice blue")
