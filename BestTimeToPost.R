@@ -54,7 +54,7 @@ WHERE subreddit=subreddit_desired
 GROUP BY hour_as_int, day_as_int, day_as_char, hour_as_char
 ORDER BY day_as_int, hour_as_int, day_as_char, hour_as_char"
 
-#This line queries BigQuery and creates a new dataframe called "starting_table". The first time you do this you'll need to enter credentials; simply follow the instructions in the console
+#This line queries BigQuery and creates a new dataframe called "table". The first time you do this you'll need to enter credentials; simply follow the instructions in the console
 table <- tbl_df(query_exec(sql, project=project_name, max_pages=Inf))
 
 #These lines level the variables; this is to make sure that our days of the week are in Sunday-Saturday order, instead of in alphabetical order
@@ -62,7 +62,7 @@ table$day_as_char <- factor(table$day_as_char, level = rev(day_as_char$day_as_ch
 table$hour_as_char <- factor(table$hour_as_char, level = hour_as_char$hour_as_char)
 
 #This line creates the title which will be generated in the image, which includes the best day and time to post
-the_title<-paste("The best time to post on /r/",subreddit_desired, "is\n", ending_table$day_as_char[ending_table$total_score == max(ending_table$total_score)], "at", ending_table$hour_as_char[ending_table$total_score == max(ending_table$total_score)])
+the_title<-paste("The best time to post on /r/",subreddit_desired, "is\n", table$day_as_char[table$total_score == max(table$total_score)], "at", table$hour_as_char[table$total_score == max(table$total_score)])
 
 #These lines will generate the png (saved to your working directory, named after the subreddit selected)  
 png(filename=paste(subreddit_desired, ".png"), width=1000)
